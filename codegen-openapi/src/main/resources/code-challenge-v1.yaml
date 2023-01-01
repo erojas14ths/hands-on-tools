@@ -1,0 +1,191 @@
+openapi: 3.0.3
+info:
+  title: Code Challenge
+  description: Represent an code challenge app. <br> Has CRUD operation respect client information.
+  version: 1.0.0
+  contact:
+    name: erojas
+    email: erojas14ths@gmail.com
+    url: https://github.com/Erojas14th
+servers:
+  - url: 'http://localhost:8080/clients'
+tags:
+  - name: findAll
+    description: Find all clients information
+  - name: findOne
+    description: Find one client information
+  - name: save
+    description: Save a client information
+  - name: update
+    description: Update a client information
+components:
+  schemas:
+    Client:
+      type: object
+      properties:
+        nombres:
+          type: string
+          description: "Represent firstName"
+          example: "Juan"
+        apellidos:
+          type: string
+          description: "Represent lastName"
+          example: "Soto Espinoza"
+        tipoDocumento:
+          type: string
+          description: "Represent document type"
+          example: "DNI, RUC, etc"
+        numeroDocumento:
+          type: string
+          description: "Represent document number"
+          example: "77698712 is number for DNI"
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: "HTTP status"
+          example: "200(OK), 404(NOT FOUND), etc."
+        message:
+          type: string
+          description: "Error details"
+          example: "HTTP error by null or empty value"
+paths:
+  /findAll:
+    get:
+      description: "Find all clients information"
+      tags:
+        - findAll
+      operationId: findAll
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Client'
+        "400":
+          description: "BAD REQUEST"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: "NOT FOUND"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "INTERNAL SERVER ERROR"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /findOne:
+    get:
+      description: "Find one client information"
+      tags:
+        - findOne
+      operationId: findOne
+      parameters:
+        - name: codigoUnico
+          description: "ID client"
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        "400":
+          description: "BAD REQUEST"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: "NOT FOUND"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: "INTERNAL SERVER ERROR"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /save:
+    post:
+      description: "Save a client information"
+      tags:
+        - save
+      operationId: save
+      requestBody:
+        description: "Body client information"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+  /update:
+    put:
+      description: "Update a client information"
+      tags:
+        - update
+      operationId: update
+      requestBody:
+        description: "Body client information"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+  /delete:
+    get:
+      description: "Delete a client"
+      tags:
+        - delete
+      operationId: delete
+      parameters:
+        - name: codigoUnico
+          description: "ID client"
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: "BAD REQUEST"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: "NOT FOUND"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
