@@ -6,7 +6,7 @@
 
     <groupId>com.erojas.tools</groupId>
     <artifactId>codegen-openapi</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <properties>
         <version.java>11</version.java>
@@ -24,9 +24,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- SWAGGER -->
-        <swagger-template.name>store-service-v1.yaml</swagger-template.name>
-        <swagger-template.model>com.erojas.store.vegetableservice.client.model</swagger-template.model>
-        <swagger-template.api>com.erojas.store.vegetableservice.client.api</swagger-template.api>
+        <swagger-template.name>ms-composite.yaml</swagger-template.name>
+        <swagger-template.model>com.erojas.laboratory.mscomposite.client.model</swagger-template.model>
+        <swagger-template.api>com.erojas.laboratory.mscomposite.client.api</swagger-template.api>
     </properties>
 
     <dependencies>

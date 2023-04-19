@@ -1,0 +1,222 @@
+openapi: 3.0.3
+info:
+  title: MS Composite
+  description: MS Composite
+  version: 1.0.0
+servers:
+  - url: "http://localhost:7000"
+  - url: "http://localhost:8080"
+tags:
+  - name: Composite
+    description: API Composite
+components:
+  schemas:
+    PersonComposite:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "Person ID"
+          example: 1
+        firstname:
+          type: string
+          description: "First name"
+          example: "Ana Paula"
+        lastname:
+          type: string
+          description: "Last name"
+          example: "Navarrete"
+        email:
+          type: string
+          description: "Email"
+          example: "quintana.ximena@yahoo.com"
+        phone:
+          type: string
+          description: "Phone"
+          example: "+7164406803083"
+        birthday:
+          type: string
+          description: "Birthday"
+          example: "2017-04-01"
+        gender:
+          type: string
+          description: "Gender"
+          example: "female"
+        website:
+          type: string
+          description: "Website"
+          example: "http://quinonez.com"
+        image:
+          type: string
+          description: "Image"
+          example: "http://placeimg.com/640/480/people"
+        address:
+          type: object
+          description: "Address"
+          $ref: "#/components/schemas/AddressComposite"
+    AddressComposite:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "Person ID"
+          example: 1
+        street:
+          type: string
+          description: "Street"
+          example: "Jr. Tomas Tamayo # 10 Hab. 116"
+        streetName:
+          type: string
+          description: "Street Name"
+          example: "Urb. Gabriel Olivarez"
+        buildingNumber:
+          type: string
+          description: "Building Number"
+          example: "8019"
+        city:
+          type: string
+          description: "City"
+          example: "Caballero  Sur"
+        zipcode:
+          type: string
+          description: "Zipcode"
+          example: "LIMA 80"
+        country:
+          type: string
+          description: "Country"
+          example: "Alemania"
+        county_code:
+          type: string
+          description: "Country Code"
+          example: "NA"
+        latitude:
+          type: number
+          description: "latitude"
+          example: -76.596425
+        longitude:
+          type: number
+          description: "longitude"
+          example: 57.010581
+    HttpError:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: "Timestamp"
+          example: "2023-04-18T13:09:52.401739800"
+        serial:
+          type: string
+          description: "Serial"
+          example: "2.0.1"
+        message:
+          type: string
+          description: "Message"
+          example: "User id not found"
+        detail:
+          type: string
+          description: "Detail"
+          example: "I/O error on GET request for \"http://localhost:7002/person/findOne/1\": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect"
+paths:
+  /composite/findAll:
+    get:
+      tags:
+        - Composite
+      description: "Find all persons"
+      operationId: "findAll"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PersonComposite"
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  /composite/findOne/{id}:
+    get:
+      tags:
+        - Composite
+      description: "Find one person"
+      operationId: "findOne"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "ID Person"
+          example: 1
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonComposite"
+        404:
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  /composite/save:
+    post:
+      tags:
+        - Composite
+      description: "Save person"
+      operationId: "save"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PersonComposite"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonComposite"
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  /composite/deleteOne/{id}:
+    delete:
+      tags:
+        - Composite
+      description: "Delete one person"
+      operationId: "deleteOne"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "ID Person"
+          example: 1
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "OK"
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+
