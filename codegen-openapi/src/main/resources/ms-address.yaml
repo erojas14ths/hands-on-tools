@@ -1,0 +1,207 @@
+openapi: 3.0.3
+info:
+  title: MS Address
+  description: MS Address
+  version: 1.0.0
+servers:
+  - url: "http://localhost:7001"
+tags:
+  - name: Address
+    description: API Address
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "Person ID"
+          example: 1
+        street:
+          type: string
+          description: "Street"
+          example: "Jr. Tomas Tamayo # 10 Hab. 116"
+        streetName:
+          type: string
+          description: "Street Name"
+          example: "Urb. Gabriel Olivarez"
+        buildingNumber:
+          type: string
+          description: "Building Number"
+          example: "8019"
+        city:
+          type: string
+          description: "City"
+          example: "Caballero  Sur"
+        zipcode:
+          type: string
+          description: "Zipcode"
+          example: "LIMA 80"
+        country:
+          type: string
+          description: "Country"
+          example: "Alemania"
+        county_code:
+          type: string
+          description: "Country Code"
+          example: "NA"
+        latitude:
+          type: number
+          description: "latitude"
+          example: -76.596425
+        longitude:
+          type: number
+          description: "longitude"
+          example: 57.010581
+    HttpError:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: "Timestamp"
+          example: "2023-04-18T13:09:52.401739800"
+        serial:
+          type: string
+          description: "Serial"
+          example: "1.0.1"
+        message:
+          type: string
+          description: "Message"
+          example: "User id not found"
+        detail:
+          type: string
+          description: "Detail"
+          example: "I/O error on GET request for \"http://localhost:7001/address/findOne/1\": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect"
+paths:
+  /address/findAll:
+    get:
+      tags:
+        - Address
+      description: "Find all address"
+      operationId: "findAll"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Address"
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  /address/findOne/{id}:
+    get:
+      tags:
+        - Address
+      description: "Find one address"
+      operationId: "findOne"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "ID Address"
+          example: 1
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Address"
+        404:
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  /address/save:
+    post:
+      tags:
+        - Address
+      description: "Save address"
+      operationId: "save"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Address"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Address"
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  /address/saveAll:
+    post:
+      tags:
+        - Address
+      description: "Save all address"
+      operationId: "saveAll"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Address"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Address"
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  /address/deleteOne/{id}:
+    delete:
+      tags:
+        - Address
+      description: "Delete one address"
+      operationId: "deleteOne"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "ID Address"
+          example: 1
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "OK"
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+

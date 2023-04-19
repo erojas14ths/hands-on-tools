@@ -1,0 +1,207 @@
+openapi: 3.0.3
+info:
+  title: Store service
+  description: Store service with fruits and vegetables products.
+  version: 1.0.0
+  contact:
+    name: Erojas
+    email: erojas14ths@gmail.com
+    url: https://github.com/Erojas14th
+servers:
+  - url: 'http://localhost:7000/products'
+  - url: 'http://localhost:7001/fruits'
+  - url: 'http://localhost:7002/vegetables'
+tags:
+  - name: Products
+    description: API Products
+  - name: Fruits
+    description: API Fruits
+  - name: Vegetables
+    description: API Vegetables
+paths:
+  /products/findOne:
+    get:
+      tags:
+        - Products
+      summary: "Find one product"
+      operationId: findOneProduct
+      parameters:
+        - name: "productId"
+          description: "ID product"
+          in: "query"
+          required: true
+          example: "1"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "200 OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        500:
+          description: "500 Internal server error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /products/findAll:
+    get:
+      tags:
+        - Products
+      summary: "Find all products"
+      operationId: findAllProducts
+      responses:
+        200:
+          description: "200 OK"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Product'
+        500:
+          description: "500 Internal server error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /fruits/findOne:
+    get:
+      tags:
+        - Fruits
+      summary: "Find one fruit"
+      operationId: findOneFruit
+      parameters:
+        - name: fruitId
+          description: "ID fruit"
+          in: "query"
+          required: true
+          example: "1"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "200 OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        500:
+          description: "500 Internal server error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /fruits/findAll:
+    get:
+      tags:
+        - Fruits
+      summary: "Find all fruits"
+      operationId: findAllFruits
+      responses:
+        200:
+          description: "200 OK"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Product'
+        500:
+          description: "500 Internal server error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /vegetables/findOne:
+    get:
+      tags:
+        - Vegetables
+      summary: "Find one vegetable"
+      operationId: findOneVegetable
+      parameters:
+        - name: "vegetableId"
+          description: "ID vegetable"
+          in: "query"
+          required: true
+          example: "1"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "200 OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        500:
+          description: "500 Internal server error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /vegetables/findAll:
+    get:
+      tags:
+        - Vegetables
+      summary: "Find all vegetables"
+      operationId: findAllVegetables
+      responses:
+        200:
+          description: "200 OK"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Product'
+        500:
+          description: "500 Internal server error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Product:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          description: "Name of product"
+        features:
+          type: "array"
+          items:
+            $ref: '#/components/schemas/Features'
+        amount:
+          $ref: '#/components/schemas/Amount'
+    Features:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          description: "Name of feature"
+        value:
+          type: "string"
+    Amount:
+      type: "object"
+      properties:
+        price:
+          type: "string"
+          description: "Price"
+        unit:
+          type: "string"
+          description: "Unit"
+        priceWithTax:
+          type: "string"
+          description: "Price with tax"
+    Error:
+      type: "object"
+      properties:
+        status:
+          type: "integer"
+          description: "Status error"
+        details:
+          type: "integer"
+          description: "Details error"
+
+  

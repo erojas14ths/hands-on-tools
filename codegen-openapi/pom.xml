@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.erojas.tools</groupId>
+    <artifactId>codegen-openapi</artifactId>
+    <version>1.0.0</version>
+
+    <properties>
+        <version.java>11</version.java>
+        <version.openapi>6.0.0</version.openapi>
+        <version.javax-servlet>2.5</version.javax-servlet>
+        <version.javax-validation>2.0.1.Final</version.javax-validation>
+        <version.javax-annotation>1.3.2</version.javax-annotation>
+        <version.jackson-annotations>2.13.3</version.jackson-annotations>
+        <version.openapi-common>1.5.9</version.openapi-common>
+        <version.openapi-jackson-nullable>0.2.1</version.openapi-jackson-nullable>
+        <version.spring-boot-validation>2.7.3</version.spring-boot-validation>
+        <!-- Project -->
+        <maven.compiler.source>${version.java}</maven.compiler.source>
+        <maven.compiler.target>${version.java}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- SWAGGER -->
+        <swagger-template.name>ms-composite.yaml</swagger-template.name>
+        <swagger-template.model>com.erojas.laboratory.mscomposite.client.model</swagger-template.model>
+        <swagger-template.api>com.erojas.laboratory.mscomposite.client.api</swagger-template.api>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${version.javax-servlet}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${version.jackson-annotations}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${version.javax-validation}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${version.javax-annotation}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-common</artifactId>
+            <version>${version.openapi-common}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${version.openapi-jackson-nullable}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>${version.spring-boot-validation}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${version.openapi}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/${swagger-template.name}</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <modelPackage>${swagger-template.model}</modelPackage>
+                            <apiPackage>${swagger-template.api}</apiPackage>
+                            <output>${project.build.directory}/generated-sources</output>
+                            <configOptions>
+                                <delegatePattern>true</delegatePattern>
+                                <interfaceOnly>true</interfaceOnly>
+                                <java8>false</java8>
+                                <library>spring-boot</library>
+                                <dateLibrary>java8</dateLibrary>
+                                <serializableModel>true</serializableModel>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
